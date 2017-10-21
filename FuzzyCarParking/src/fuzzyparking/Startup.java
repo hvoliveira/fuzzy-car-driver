@@ -14,6 +14,7 @@ public class Startup extends JFrame {
 	
 	public Startup() {
 		this.addKeyListener(new KeyboardListener());
+		this.addMouseListener(new MouseClickListener());
 		ParkingLot lot = ParkingLot.getInstance();
 		add(lot);
 		setSize(lot.getFrameWidth(), lot.getFrameHeight());

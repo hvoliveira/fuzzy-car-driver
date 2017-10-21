@@ -14,7 +14,8 @@ public class SimulatedCar extends Car {
 	private int wheelY2;
 	private int wheelWidth;
 	private int wheelLength;
-    
+    private int counter;
+	
     public SimulatedCar(int x, int y, int length, int width) {
         this.x = x;
         this.y = y;
@@ -25,6 +26,7 @@ public class SimulatedCar extends Car {
         updateWheels();
         this.phi = 0.0;
         this.theta = 0.0;
+        this.counter = 1;
     }
     
     public void updateWheels() {
@@ -40,12 +42,42 @@ public class SimulatedCar extends Car {
 
     @Override
     public void move() {
+    	
+    	if(this.y < ParkingLot.getInstance().getParkingSpacePosY()) {
+	    	this.phi = this.phi + this.theta;
+	        this.x += (int) (15*Math.cos(-this.phi));
+	        this.y -= (int) (15*Math.sin(-this.phi));
+	        this.updateWheels();
+	        this.fixCoordinates();
+	    } else {
+	    	this.phi = this.phi + this.theta;
+	        this.x += (int) (15*Math.cos(-this.phi));
+	        this.y -= (int) (15*Math.sin(this.phi));
+	        this.updateWheels();
+	        this.fixCoordinates();
+    	}
         
     }
 
-    @Override
-    public void run() {
-        
+    public void reset() {
+    	int accumulator = counter*100;
+    	if(counter <= 10) {
+    		this.x = accumulator;
+    		accumulator += accumulator;
+    		this.y = 50;
+    	} else if (counter == 11) {
+    		accumulator = 100;
+    		this.x = 40;
+    		this.y = 700;
+    	} else if(11 < counter || counter <= 20) {
+    		this.x = accumulator;
+    		accumulator += accumulator;
+    		this.y = 700;
+    	} else {
+    		counter = 0;
+    	}
+    	
+    	counter++;
     }
     
     @Override
@@ -54,7 +86,9 @@ public class SimulatedCar extends Car {
     	g2d.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING, 
                 RenderingHints.VALUE_ANTIALIAS_ON);
-    	g2d.rotate(-phi, this.x, this.y);
+    	
+    	g2d.rotate(-phi*ParkingSpaceYOrientation(), this.x, this.y);
+    	
     	// draw car
     	g.setColor(Color.black);
         g.drawRect(this.x - this.length/2, this.y - this.width/2, this.length, this.width);
@@ -63,13 +97,19 @@ public class SimulatedCar extends Car {
         g.fillRect(this.wheelX2, this.wheelY2, this.wheelLength, this.wheelWidth);
         // draw front wheels        
         AffineTransform at = g2d.getTransform();
-        g2d.rotate(theta, wheelX1+wheelLength/2, wheelY1+wheelWidth/2);
+        g2d.rotate(theta*ParkingSpaceYOrientation(), wheelX1+wheelLength/2, wheelY1+wheelWidth/2);
         g.fillRect(this.wheelX1, this.wheelY1, this.wheelLength, this.wheelWidth);
         g2d.setTransform(at);
-        g2d.rotate(theta, wheelX1+wheelLength/2, wheelY2+wheelWidth/2);
+        g2d.rotate(theta*ParkingSpaceYOrientation(), wheelX1+wheelLength/2, wheelY2+wheelWidth/2);
         g.fillRect(this.wheelX1, this.wheelY2, this.wheelLength, this.wheelWidth);
         
-        
+    }
+    
+    public int ParkingSpaceYOrientation() {
+    	if(this.y < ParkingLot.getInstance().getParkingSpacePosY()) {
+    		return -1;
+    	}
+    	return 1;
     }
     
     

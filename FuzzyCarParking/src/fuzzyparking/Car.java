@@ -2,7 +2,7 @@ package fuzzyparking;
 
 import java.awt.Graphics;
 
-public abstract class Car implements Runnable {
+public abstract class Car {
     
     int length; // car length
     int width; // car width

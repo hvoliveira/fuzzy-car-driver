@@ -13,7 +13,7 @@ public class ParkingLot extends JPanel implements Runnable {
     private int frameHeight = 800;
     private int parkingSpacePosX;
     private int parkingSpacePosY;
-    private Car car;
+    private SimulatedCar car;
     private final FIS fis = FIS.load("driver.fcl", true);
     
     private static ParkingLot singleton;
@@ -26,17 +26,11 @@ public class ParkingLot extends JPanel implements Runnable {
     }
 
     private ParkingLot() {
-        setCar(new SimulatedCar(300, 300, 80, 40));
-        parkingSpacePosX = frameWidth/2 + 50;
-        parkingSpacePosY = 0;
+        setCar(new SimulatedCar(40, 40, 80, 40));
+        parkingSpacePosX = frameWidth/2;
+        parkingSpacePosY = frameHeight/2;
         this.setFocusable(false);
     }
-
-    public void reset() {
-        Thread t = new Thread(getCar());
-        t.start();
-    }
-    
 
     @Override
     public void paint(Graphics g) {
@@ -45,24 +39,34 @@ public class ParkingLot extends JPanel implements Runnable {
         
         // draw parking space
         g.setColor(Color.gray);
-        g.fillRect(parkingSpacePosX - (car.width + 40)/2, parkingSpacePosY, 
+        g.fillRect(parkingSpacePosX - (car.width + 40)/2, parkingSpacePosY - (car.length + 40)/2, 
         		(int) (car.width + 40), (int) (car.length + 40));
-        
+        g.setColor(Color.red);
+        g.drawOval(parkingSpacePosX, parkingSpacePosY, 2, 2);
         // draw car
-        getCar().paint(g);       
+        getCar().paint(g); 
+        
+        
+        
         
     }
     
     @Override
     public void run() {
-        reset();
         try {
             while (true) {
-                fis.setVariable("position", ((car.x-parkingSpacePosX)*100/frameWidth));
+//                fis.setVariable("position", (((car.x-parkingSpacePosX)*100)/frameWidth));
                 fis.setVariable("position", (car.x-parkingSpacePosX));
                 fis.setVariable("orientation", Math.toDegrees(car.phi));
                 fis.evaluate();
                 car.theta = Math.toRadians(fis.getVariable("wheelOrientation").getValue());
+                car.move();
+                double error = Math.sqrt((car.x  - parkingSpacePosX)*(car.x - parkingSpacePosX) 
+                		+ (car.y - parkingSpacePosY)*(car.y - parkingSpacePosY));
+                if(error <= 8) {
+                	Thread.sleep(1000);
+                	car.reset();
+                }
             	// Repaints scene
                 this.repaint();
                 // Sleeps 30ms
@@ -94,7 +98,20 @@ public class ParkingLot extends JPanel implements Runnable {
 		return car;
 	}
 
-	public void setCar(Car car) {
+	public void setCar(SimulatedCar car) {
 		this.car = car;
+	}
+
+	public int getParkingSpacePosY() {
+		return parkingSpacePosY;
+	}
+
+	public void setParkingSpacePosY(int parkingSpacePosY) {
+		this.parkingSpacePosY = parkingSpacePosY;
+	}
+
+	public void setParkingSpacePosX(int x) {
+		this.parkingSpacePosX = x;
+		
 	}
 }

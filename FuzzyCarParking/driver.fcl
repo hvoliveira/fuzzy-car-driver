@@ -57,7 +57,7 @@ FUNCTION_BLOCK driver
 		TERM PM:= (3, 0) (15, 1) (25, 0);
 		TERM PB:= (15, 0) (30, 1);
 		METHOD  : COG; // defuzzification method
-		DEFAULT := 0; // default value (if no rule activates defuzzifier)
+		DEFAULT := 0; // 	default value (if no rule activates defuzzifier)
 	
 	END_DEFUZZIFY
 	
