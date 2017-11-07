@@ -4,8 +4,8 @@ FUNCTION_BLOCK driver
 
 	VAR_INPUT
 	
-		position    : REAL;
-		orientation : REAL;
+		positionError    : REAL;
+		orientation      : REAL;
 		
 	END_VAR
 	
@@ -15,7 +15,7 @@ FUNCTION_BLOCK driver
 		
 	END_VAR
 	
-//	FUZZIFY position
+//	FUZZIFY positionError
 //	
 //		TERM LE := (-700, 1) (-560, 1) (-210, 0);
 //		TERM LC := (-300, 0) (-140, 1) (0, 0);
@@ -25,7 +25,7 @@ FUNCTION_BLOCK driver
 //	
 //	END_FUZZIFY
 	
-	FUZZIFY position
+	FUZZIFY positionError
 	
 		TERM LE := (-100, 1) (-80, 1) (-30, 0);
 		TERM LC := (-40, 0) (-20, 1) (4, 0);
@@ -67,47 +67,47 @@ FUNCTION_BLOCK driver
 		ACT  : MIN; // USE MIN FOR ACTIVATION METHOD
 		ACCU : MAX; // USE MAX ACCUMULATION METHOD
 		
-		RULE 1  : IF orientation IS RB AND position IS LE THEN wheelOrientation IS PS;
-		RULE 2  : IF orientation IS RB AND position IS LC THEN wheelOrientation IS PM;
-		RULE 3  : IF orientation IS RB AND position IS CE THEN wheelOrientation IS PM;
-		RULE 4  : IF orientation IS RB AND position IS RC THEN wheelOrientation IS PB;
-		RULE 5  : IF orientation IS RB AND position IS RI THEN wheelOrientation IS PB;
+		RULE 1  : IF orientation IS RB AND positionError IS LE THEN wheelOrientation IS PS;
+		RULE 2  : IF orientation IS RB AND positionError IS LC THEN wheelOrientation IS PM;
+		RULE 3  : IF orientation IS RB AND positionError IS CE THEN wheelOrientation IS PM;
+		RULE 4  : IF orientation IS RB AND positionError IS RC THEN wheelOrientation IS PB;
+		RULE 5  : IF orientation IS RB AND positionError IS RI THEN wheelOrientation IS PB;
 		
-		RULE 6  : IF orientation IS RU AND position IS LE THEN wheelOrientation IS NS;
-		RULE 7  : IF orientation IS RU AND position IS LC THEN wheelOrientation IS PS;
-		RULE 8  : IF orientation IS RU AND position IS CE THEN wheelOrientation IS PM;
-		RULE 9  : IF orientation IS RU AND position IS RC THEN wheelOrientation IS PB;
-		RULE 10 : IF orientation IS RU AND position IS RI THEN wheelOrientation IS PB;
+		RULE 6  : IF orientation IS RU AND positionError IS LE THEN wheelOrientation IS NS;
+		RULE 7  : IF orientation IS RU AND positionError IS LC THEN wheelOrientation IS PS;
+		RULE 8  : IF orientation IS RU AND positionError IS CE THEN wheelOrientation IS PM;
+		RULE 9  : IF orientation IS RU AND positionError IS RC THEN wheelOrientation IS PB;
+		RULE 10 : IF orientation IS RU AND positionError IS RI THEN wheelOrientation IS PB;
 		
-		RULE 11 : IF orientation IS RV AND position IS LE THEN wheelOrientation IS NM;
-		RULE 12 : IF orientation IS RV AND position IS LC THEN wheelOrientation IS NS;
-		RULE 13 : IF orientation IS RV AND position IS CE THEN wheelOrientation IS PS;
-		RULE 14 : IF orientation IS RV AND position IS RC THEN wheelOrientation IS PM;
-		RULE 15 : IF orientation IS RV AND position IS RI THEN wheelOrientation IS PB;
+		RULE 11 : IF orientation IS RV AND positionError IS LE THEN wheelOrientation IS NM;
+		RULE 12 : IF orientation IS RV AND positionError IS LC THEN wheelOrientation IS NS;
+		RULE 13 : IF orientation IS RV AND positionError IS CE THEN wheelOrientation IS PS;
+		RULE 14 : IF orientation IS RV AND positionError IS RC THEN wheelOrientation IS PM;
+		RULE 15 : IF orientation IS RV AND positionError IS RI THEN wheelOrientation IS PB;
 		
-		RULE 16 : IF orientation IS VE AND position IS LE THEN wheelOrientation IS NM;
-		RULE 17 : IF orientation IS VE AND position IS LC THEN wheelOrientation IS NM;
-		RULE 18 : IF orientation IS VE AND position IS CE THEN wheelOrientation IS ZE;
-		RULE 19 : IF orientation IS VE AND position IS RC THEN wheelOrientation IS PM;
-		RULE 20 : IF orientation IS VE AND position IS RI THEN wheelOrientation IS PM;
+		RULE 16 : IF orientation IS VE AND positionError IS LE THEN wheelOrientation IS NM;
+		RULE 17 : IF orientation IS VE AND positionError IS LC THEN wheelOrientation IS NM;
+		RULE 18 : IF orientation IS VE AND positionError IS CE THEN wheelOrientation IS ZE;
+		RULE 19 : IF orientation IS VE AND positionError IS RC THEN wheelOrientation IS PM;
+		RULE 20 : IF orientation IS VE AND positionError IS RI THEN wheelOrientation IS PM;
 		
-		RULE 21 : IF orientation IS LV AND position IS LE THEN wheelOrientation IS NB;
-		RULE 22 : IF orientation IS LV AND position IS LC THEN wheelOrientation IS NM;
-		RULE 23 : IF orientation IS LV AND position IS CE THEN wheelOrientation IS NS;
-		RULE 24 : IF orientation IS LV AND position IS RC THEN wheelOrientation IS PS;
-		RULE 25 : IF orientation IS LV AND position IS RI THEN wheelOrientation IS PM;
+		RULE 21 : IF orientation IS LV AND positionError IS LE THEN wheelOrientation IS NB;
+		RULE 22 : IF orientation IS LV AND positionError IS LC THEN wheelOrientation IS NM;
+		RULE 23 : IF orientation IS LV AND positionError IS CE THEN wheelOrientation IS NS;
+		RULE 24 : IF orientation IS LV AND positionError IS RC THEN wheelOrientation IS PS;
+		RULE 25 : IF orientation IS LV AND positionError IS RI THEN wheelOrientation IS PM;
 		
-		RULE 26 : IF orientation IS LU AND position IS LE THEN wheelOrientation IS NB;
-		RULE 27 : IF orientation IS LU AND position IS LC THEN wheelOrientation IS NB;
-		RULE 28 : IF orientation IS LU AND position IS CE THEN wheelOrientation IS NM;
-		RULE 29 : IF orientation IS LU AND position IS RC THEN wheelOrientation IS NS;
-		RULE 30 : IF orientation IS LU AND position IS RI THEN wheelOrientation IS PS;
+		RULE 26 : IF orientation IS LU AND positionError IS LE THEN wheelOrientation IS NB;
+		RULE 27 : IF orientation IS LU AND positionError IS LC THEN wheelOrientation IS NB;
+		RULE 28 : IF orientation IS LU AND positionError IS CE THEN wheelOrientation IS NM;
+		RULE 29 : IF orientation IS LU AND positionError IS RC THEN wheelOrientation IS NS;
+		RULE 30 : IF orientation IS LU AND positionError IS RI THEN wheelOrientation IS PS;
 		
-		RULE 31 : IF orientation IS LB AND position IS LE THEN wheelOrientation IS NB;
-		RULE 32 : IF orientation IS LB AND position IS LC THEN wheelOrientation IS NB;
-		RULE 33 : IF orientation IS LB AND position IS CE THEN wheelOrientation IS NM;
-		RULE 34 : IF orientation IS LB AND position IS RC THEN wheelOrientation IS NM;
-		RULE 35 : IF orientation IS LB AND position IS RI THEN wheelOrientation IS NS;		
+		RULE 31 : IF orientation IS LB AND positionError IS LE THEN wheelOrientation IS NB;
+		RULE 32 : IF orientation IS LB AND positionError IS LC THEN wheelOrientation IS NB;
+		RULE 33 : IF orientation IS LB AND positionError IS CE THEN wheelOrientation IS NM;
+		RULE 34 : IF orientation IS LB AND positionError IS RC THEN wheelOrientation IS NM;
+		RULE 35 : IF orientation IS LB AND positionError IS RI THEN wheelOrientation IS NS;		
 		
 	END_RULEBLOCK
 

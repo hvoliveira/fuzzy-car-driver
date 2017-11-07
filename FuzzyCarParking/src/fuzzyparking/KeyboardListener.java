@@ -36,6 +36,24 @@ public class KeyboardListener implements KeyListener {
                 car.fixCoordinates();
                 ParkingLot.getInstance().setCar(car);
             	break;
+            case KeyEvent.VK_P:
+            	ParkingLot.getInstance().prepareData();
+            	break;
+            case KeyEvent.VK_T:
+            	ParkingLot.getInstance().startNetworkTraining();
+            	break;
+            case KeyEvent.VK_S:
+            	ParkingLot.getInstance().startNeuralDriving();
+            	break;
+            case KeyEvent.VK_SPACE:
+            	ParkingLot.getInstance().setDriverMode(0);
+            	break;
+            case KeyEvent.VK_N:
+            	ParkingLot.getInstance().setDriverMode(2);
+            	break;
+            case KeyEvent.VK_F:
+            	ParkingLot.getInstance().setDriverMode(1);
+            	break;
         }
     }
 

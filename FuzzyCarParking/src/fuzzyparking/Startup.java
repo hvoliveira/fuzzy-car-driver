@@ -1,7 +1,10 @@
-package fuzzyparking;
+package fuzzyparking;	
+
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Startup extends JFrame {
 
 	public static void main(String[] args) {
