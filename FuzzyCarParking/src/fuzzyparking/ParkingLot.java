@@ -37,13 +37,14 @@ public class ParkingLot extends JPanel implements Runnable {
 		setCar(new SimulatedCar(40, 300, 50, 25));
 		parkingSpacePosX = frameWidth / 2;
 		parkingSpacePosY = 50;
-		nDriver = new NeuralDriver(0.3, "input/rawData.csv");
+		nDriver = new NeuralDriver(0.4, "input/rawData.csv");
 		this.setFocusable(false);
 		this.driverMode = 0;
 	}
 
 	public void gatherData() {
-		builder.append(getPosError() + ",");
+//		builder.append(getPosError() + ",");
+		builder.append(car.x + ",");
 		builder.append(Math.toDegrees(car.phi)+ ",");
 		builder.append(Math.toDegrees(car.theta));
 		builder.append("\n");
@@ -62,6 +63,12 @@ public class ParkingLot extends JPanel implements Runnable {
 	public void paint(Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, frameWidth, frameHeight);
+		g.setColor(Color.black);
+		g.drawString("Press 'F' for fuzzy driving", 800, 470);
+		g.drawString("Press 'SPACE' to halt parking", 800, 490);
+		g.drawString("Press 'P' to prepare data", 800, 510);
+		g.drawString("Press 'T' to train network", 800, 530);
+		g.drawString("Press 'N' for neural driving", 800, 550);
 
 		// draw parking space
 		g.setColor(Color.gray);

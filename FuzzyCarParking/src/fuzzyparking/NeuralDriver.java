@@ -143,7 +143,9 @@ public class NeuralDriver {
 				normalizedValue = normalizeValue(2, currentValue);
 				valuesQueue.add(normalizedValue);
 
+				System.out.println(valuesQueue.toString());
 				String valueLine = valuesQueue.toString().replaceAll("\\[|\\]", "");
+				System.out.println(valueLine);
 				writer.write(valueLine);
 				writer.newLine();
 
@@ -174,7 +176,7 @@ public class NeuralDriver {
 			min = thetaMin;
 			break;
 		}
-		return (value - min) / (max - min) * 0.8 + 0.1;
+		return ((value - min) / (max - min));
 	}
 
 	public double denormalizeValue(int type, double value) {
@@ -195,11 +197,11 @@ public class NeuralDriver {
 			min = thetaMin;
 			break;
 		}
-		return min + (value - 0.1) * (max - min) / 0.8;
+		return (value * (max - min) + min); 
 	}
 
 	public void trainNetwork() throws IOException {
-		NeuralNetwork<BackPropagation> neuralNetwork = new MultiLayerPerceptron(inputN, 3, 2, 1);
+		NeuralNetwork<BackPropagation> neuralNetwork = new MultiLayerPerceptron(inputN, inputN*2 + 1, 1);
 
 		int maxIterations = 5000;
 		double maxError = 0.00001;
@@ -291,8 +293,9 @@ public class NeuralDriver {
 	public void drive() {
 		NeuralNetwork neuralNetwork = getNetwork();
 		double[] inputs = new double[2];
-		inputs[0] = ParkingLot.getInstance().getPosError();
-		inputs[1] = ParkingLot.getInstance().getCar().phi;
+//		inputs[0] = normalizeValue(0, ParkingLot.getInstance().getPosError());
+		inputs[0] = normalizeValue(0, ParkingLot.getInstance().getCar().x);
+		inputs[1] = normalizeValue(1, Math.toDegrees(ParkingLot.getInstance().getCar().phi));
 		neuralNetwork.setInput(inputs);
 		neuralNetwork.calculate();
 		double output = 0.0;
